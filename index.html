@@ -81,6 +81,16 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-8">
+            <!-- Mobile Header -->
+            <div class="flex justify-between items-center mb-6 lg:hidden">
+                <h1 class="text-2xl font-bold text-dark">Menu</h1>
+                <button id="cart-toggle-button" class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </button>
+            </div>
             <!-- Search and Filters -->
             <div class="mb-8">
                 <div class="flex items-center mb-4">
@@ -170,7 +180,13 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="w-96 bg-white p-6 shadow-md flex flex-col">
+        <div id="order-summary" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white p-6 shadow-xl flex flex-col z-50 transform translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-96 lg:shadow-md lg:max-w-none">
+            <!-- Mobile Close Button -->
+            <button id="close-cart-button" class="absolute top-5 right-5 text-gray-500 hover:text-gray-800 lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
             <!-- Header -->
             <div class="flex-shrink-0">
                 <div class="flex justify-between items-center mb-6">
@@ -262,6 +278,28 @@
                 </button>
             </div>
         </div>
+        <!-- Overlay for mobile cart -->
+        <div id="cart-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"></div>
     </div>
+
+    <script>
+        const cartToggleButton = document.getElementById('cart-toggle-button');
+        const closeCartButton = document.getElementById('close-cart-button');
+        const orderSummary = document.getElementById('order-summary');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const body = document.body;
+
+        function toggleCart() {
+            orderSummary.classList.toggle('translate-x-full');
+            cartOverlay.classList.toggle('hidden');
+            body.classList.toggle('overflow-hidden'); // Optional: to prevent scrolling the background
+        }
+
+        if (cartToggleButton && closeCartButton && orderSummary && cartOverlay) {
+            cartToggleButton.addEventListener('click', toggleCart);
+            closeCartButton.addEventListener('click', toggleCart);
+            cartOverlay.addEventListener('click', toggleCart);
+        }
+    </script>
 </body>
 </html>
